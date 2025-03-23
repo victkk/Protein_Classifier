@@ -285,6 +285,10 @@ class Power(Function):
     def backward(self, grad_output):
         x, y = self.saved_for_backward
         dx = grad_output * y.data * (x.data ** (y.data - 1))
+        # print(x.data)
+        # import time
+
+        # time.sleep(10)
         dy = grad_output * (x.data**y.data) * np.log(x.data)
         return dx, dy
 

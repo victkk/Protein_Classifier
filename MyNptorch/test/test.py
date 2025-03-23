@@ -1,3 +1,6 @@
+import sys
+
+sys.path.append("../")
 from mynptorch.core.tensor import Tensor
 import numpy as np
 import pandas as pd
