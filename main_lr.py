@@ -16,15 +16,68 @@ import logging
 
 
 class LRModel:
-    def __init__(self):
+    def __init__(self, save_dir=None):
         self.model = LogisticRegression(max_iter=10000, penalty=None)
+        self.save_dir = save_dir
 
     def train(self, train_data, train_targets):
         self.model.fit(train_data, train_targets)
 
-    def evaluate(self, data, targets):
-        preds = self.model.predict(data)
-        return accuracy_score(targets, preds)
+    def evaluate(
+        self, data, targets, show_confusion_matrix=False, dataset_id=0, istest=True
+    ):
+        y_pred_binary = self.model.predict(data)
+        tp = ((y_pred_binary == 1) & (targets == 1)).sum()
+        tn = ((y_pred_binary == 0) & (targets == 0)).sum()
+        fp = ((y_pred_binary == 1) & (targets == 0)).sum()
+        fn = ((y_pred_binary == 0) & (targets == 1)).sum()
+        if show_confusion_matrix:
+            # Create confusion matrix visualization
+            self.draw_confusion_matrix(tp, tn, fp, fn, dataset_id, istest)
+            if not os.path.exists(
+                os.path.join(self.save_dir, "confusion_matrix_dataset")
+            ):
+                os.makedirs(os.path.join(self.save_dir, "confusion_matrix_dataset"))
+            plt.savefig(
+                os.path.join(
+                    self.save_dir,
+                    "confusion_matrix_dataset",
+                    f"dataset{dataset_id}_{'test' if istest else 'train'}.png",
+                )
+            )
+            plt.close()
+        return accuracy_score(targets, y_pred_binary), tp, tn, fp, fn
+
+    def draw_confusion_matrix(self, tp, tn, fp, fn, dataset_id, istest):
+        confusion_matrix = np.array([[tn, fp], [fn, tp]])
+
+        plt.figure(figsize=(6, 5))
+        plt.imshow(confusion_matrix, interpolation="nearest", cmap=plt.cm.Blues)
+        plt.title(
+            "Confusion Matrix"
+            + f" for dataset {dataset_id}"
+            + f"{'(Test)' if istest else '(Train)'}"
+        )
+        plt.colorbar()
+        classes = ["0", "1"]
+        tick_marks = np.arange(len(classes))
+        plt.xticks(tick_marks, classes)
+        plt.yticks(tick_marks, classes)
+        plt.xlabel("Predicted Label")
+        plt.ylabel("True Label")
+
+        # Add text annotations
+        thresh = confusion_matrix.max() / 2.0
+        for i in range(2):
+            for j in range(2):
+                plt.text(
+                    j,
+                    i,
+                    format(confusion_matrix[i, j], "d"),
+                    ha="center",
+                    va="center",
+                    color="white" if confusion_matrix[i, j] > thresh else "black",
+                )
 
 
 class LRFromScratch:
@@ -41,7 +94,7 @@ class LRFromScratch:
         self.l1_lambda = l1_lambda
         self.l2_lambda = l2_lambda
         self.weights = Tensor(np.random.rand(1, 300) / 100, requires_grad=True)
-        self.bias = Tensor(np.random.rand(1) / 10, requires_grad=True)
+        self.bias = Tensor(np.random.rand(1) / 100, requires_grad=True)
         self.lr = lr
         self.save_dir = save_dir
         self.log_interval = log_interval
@@ -83,7 +136,7 @@ class LRFromScratch:
     def backward(self, weight, bias, x, y):
         # only for debugging auto backward pass
         # not used in training
-        N = x.shape[1]
+        N = 300
         z = weight @ x + bias
         y_pred5 = 1 / (1 + np.exp(-z))
         epsillon = 1e-10
@@ -122,23 +175,28 @@ class LRFromScratch:
             self.weights.grad_fn = None
 
             # for logging
-            pbar.set_postfix_str(
-                f"Loss: \033[1;36m{loss.data:.4f}\033[0m | "
-                f"ETA: {pbar.format_interval(pbar.format_dict['elapsed']/(eps+1)*(epochs-eps))}"
-            )
-            if visualize_backward_graph:
-                if self.save_dir:
-                    loss.visualize_backward(
-                        filename=os.path.join(self.save_dir, "compute_graph")
-                    )
-                else:
-                    loss.visualize_backward()
+            # dl_dw, dl_db = self.backward(
+            #     self.weights.data, self.bias.data, train_data.data, train_targets.data
+            # )
             if (
                 self.save_dir
                 and self.log_interval != -1
                 and eps % self.log_interval == 0
             ):
+                # print(dl_dw / self.weights.grad)
                 logging.info(f"\tLoss: {loss.data:.4f}")
+
+            pbar.set_postfix_str(
+                f"Loss: \033[1;36m{loss.data:.4f}\033[0m | "
+                f"ETA: {pbar.format_interval(pbar.format_dict['elapsed']/(eps+1)*(epochs-eps))}"
+            )
+            if visualize_backward_graph:
+                if self.save_dir and not os.path.exists(
+                    os.path.join(self.save_dir, "compute_graph.png")
+                ):
+                    loss.visualize_backward(
+                        filename=os.path.join(self.save_dir, "compute_graph")
+                    )
 
     def evaluate(
         self, data, targets, istest=True, dataset_id=0, show_confusion_matrix=False
@@ -168,37 +226,11 @@ class LRFromScratch:
         fn = ((y_pred_binary == 0) & (targets.data == 1)).sum()
         if show_confusion_matrix:
             # Create confusion matrix visualization
-            confusion_matrix = np.array([[tn, fp], [fn, tp]])
-
-            plt.figure(figsize=(6, 5))
-            plt.imshow(confusion_matrix, interpolation="nearest", cmap=plt.cm.Blues)
-            plt.title(
-                "Confusion Matrix"
-                + f" for dataset {dataset_id}"
-                + f"{'(Test)' if istest else '(Train)'}"
-            )
-            plt.colorbar()
-            classes = ["0", "1"]
-            tick_marks = np.arange(len(classes))
-            plt.xticks(tick_marks, classes)
-            plt.yticks(tick_marks, classes)
-            plt.xlabel("Predicted Label")
-            plt.ylabel("True Label")
-
-            # Add text annotations
-            thresh = confusion_matrix.max() / 2.0
-            for i in range(2):
-                for j in range(2):
-                    plt.text(
-                        j,
-                        i,
-                        format(confusion_matrix[i, j], "d"),
-                        ha="center",
-                        va="center",
-                        color="white" if confusion_matrix[i, j] > thresh else "black",
-                    )
-            # plt.show()
-            # save plt to file
+            self.draw_confusion_matrix(tp, tn, fp, fn, dataset_id, istest)
+            if not os.path.exists(
+                os.path.join(self.save_dir, "confusion_matrix_dataset")
+            ):
+                os.makedirs(os.path.join(self.save_dir, "confusion_matrix_dataset"))
             plt.savefig(
                 os.path.join(
                     self.save_dir,
@@ -206,7 +238,7 @@ class LRFromScratch:
                     f"dataset{dataset_id}_{'test' if istest else 'train'}.png",
                 )
             )
-
+            plt.close()
         # Calculate accuracy
         correct = (y_pred_binary == targets.data).sum()
         total = targets.data.shape[0]
@@ -214,7 +246,38 @@ class LRFromScratch:
         logging.info(
             f"\t{'test' if istest else 'train'} accuracy:{accuracy} tp:{tp} tn:{tn} fp:{fp} fn:{fn}"
         )
-        return accuracy
+        return accuracy, tp, tn, fp, fn
+
+    def draw_confusion_matrix(self, tp, tn, fp, fn, dataset_id, istest):
+        confusion_matrix = np.array([[tn, fp], [fn, tp]])
+
+        plt.figure(figsize=(6, 5))
+        plt.imshow(confusion_matrix, interpolation="nearest", cmap=plt.cm.Blues)
+        plt.title(
+            "Confusion Matrix"
+            + f" for dataset {dataset_id}"
+            + f"{'(Test)' if istest else '(Train)'}"
+        )
+        plt.colorbar()
+        classes = ["0", "1"]
+        tick_marks = np.arange(len(classes))
+        plt.xticks(tick_marks, classes)
+        plt.yticks(tick_marks, classes)
+        plt.xlabel("Predicted Label")
+        plt.ylabel("True Label")
+
+        # Add text annotations
+        thresh = confusion_matrix.max() / 2.0
+        for i in range(2):
+            for j in range(2):
+                plt.text(
+                    j,
+                    i,
+                    format(confusion_matrix[i, j], "d"),
+                    ha="center",
+                    va="center",
+                    color="white" if confusion_matrix[i, j] > thresh else "black",
+                )
 
 
 def data_preprocess(args):
@@ -253,40 +316,58 @@ def main(args):
 
     task_acc_train = []
     task_acc_test = []
-
-    # model = LRModel()
     save_dir = create_timestamped_folder(args.description, base_dir="./results")
-    model = LRFromScratch(save_dir=save_dir, log_interval=100)
+    if not args.custom:
+        model = LRModel(save_dir=save_dir)
+    else:
+        model = LRFromScratch(save_dir=save_dir, log_interval=100)
+    train_confusion_matrix = []
+    test_confusion_matrix = []
     for i in range(len(data_list)):
         train_data, test_data = data_list[i]
         train_targets, test_targets = target_list[i]
-
         logging.info(f"Processing dataset {i+1}/{len(data_list)}")
-        model.initialize_weights(train_data.shape[1])
-        model.train(
-            train_data,
-            train_targets,
-            visualize_backward_graph=False,
-            lr=5e-1,
-        )
+        if not args.custom:
+            model.train(train_data, train_targets)
+        else:
+            model.initialize_weights(train_data.shape[1])
+            model.train(
+                train_data,
+                train_targets,
+                visualize_backward_graph=True,
+                lr=1e-1,
+            )
 
         # Evaluate the model
-        train_accuracy = model.evaluate(
+        train_accuracy, *confusion_matrix = model.evaluate(
             train_data, train_targets, istest=False, dataset_id=i + 1
         )
-        test_accuracy = model.evaluate(
+        train_confusion_matrix.append(confusion_matrix)
+        test_accuracy, *confusion_matrix = model.evaluate(
             test_data,
             test_targets,
             istest=True,
             dataset_id=i + 1,
             show_confusion_matrix=True,
         )
-
+        test_confusion_matrix.append(confusion_matrix)
         print(
             f"Dataset {i+1}/{len(data_list)} - Train Accuracy: {train_accuracy}, Test Accuracy: {test_accuracy}"
         )
         task_acc_train.append(train_accuracy)
         task_acc_test.append(test_accuracy)
+    train_confusion_matrix = tuple(
+        sum(element) for element in zip(*train_confusion_matrix)
+    )
+    test_confusion_matrix = tuple(
+        sum(element) for element in zip(*test_confusion_matrix)
+    )
+    model.draw_confusion_matrix(*train_confusion_matrix, dataset_id="all", istest=False)
+    plt.savefig(os.path.join(save_dir, "confusion_matrix_train.png"))
+    plt.close()
+    model.draw_confusion_matrix(*test_confusion_matrix, dataset_id="all", istest=True)
+    plt.savefig(os.path.join(save_dir, "confusion_matrix_test.png"))
+    plt.close()
     logging.info(f"Training accuracy: {sum(task_acc_train) / len(task_acc_train)}")
     logging.info(f"Testing accuracy: {sum(task_acc_test) / len(task_acc_test)}")
     print("Training accuracy:", sum(task_acc_train) / len(task_acc_train))
@@ -299,6 +380,11 @@ if __name__ == "__main__":
         "--ent",
         action="store_true",
         help="Load data from a file using a feature engineering function feature_extraction() from fea.py",
+    )
+    parser.add_argument(
+        "--custom",
+        action="store_true",
+        help="use self implemented logistic regression model if present",
     )
     parser.add_argument(
         "--description",

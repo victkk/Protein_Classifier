@@ -227,7 +227,7 @@ class Tensor:
         return sum(self, axis=axis, keepdims=keepdims)
 
     # 反向运算符
-    # todo check
+    # TODO check
     __radd__ = __add__
     __rmul__ = __mul__
 

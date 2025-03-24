@@ -1,0 +1,328 @@
+digraph compute_graph {
+	1820580441360 [label="Tensor [304]
+Shape: ()
+Data: 2.187642569582818
+Grad: 1.0
+Requires Grad: True" shape=ellipse]
+	1820602640464 [label="Function [Add]
+Saved Tensors: 2" fillcolor="#e0e0e0" shape=rectangle style=filled]
+	1820602640464 -> 1820580441360 [label=Output]
+	1820602643536 [label="Tensor [302]
+Shape: ()
+Data: 2.187642569582818
+Grad: 1.0
+Requires Grad: True" shape=ellipse]
+	1820602643536 -> 1820602640464 [label=Input]
+	1820602637264 [label="Function [Add]
+Saved Tensors: 2" fillcolor="#e0e0e0" shape=rectangle style=filled]
+	1820602637264 -> 1820602643536 [label=Output]
+	1820582046288 [label="Tensor [300]
+Shape: ()
+Data: 2.187642569582818
+Grad: 1.0
+Requires Grad: True" shape=ellipse]
+	1820582046288 -> 1820602637264 [label=Input]
+	1820601747344 [label="Function [Mul]
+Saved Tensors: 2" fillcolor="#e0e0e0" shape=rectangle style=filled]
+	1820601747344 -> 1820582046288 [label=Output]
+	1820602632208 [label="Tensor [298]
+Shape: ()
+Data: -2.187642569582818
+Grad: -1.0
+Requires Grad: True" shape=ellipse]
+	1820602632208 -> 1820601747344 [label=Input]
+	1820602630288 [label="Function [MeanFunction]
+Saved Tensors: 1" fillcolor="#e0e0e0" shape=rectangle style=filled]
+	1820602630288 -> 1820602632208 [label=Output]
+	1820601754000 [label="Tensor [297]
+Shape: (1, 685)
+Data: [[-2.66392751e+00 -4...
+Grad: [[-0.00145985 -0.001...
+Requires Grad: True" shape=ellipse]
+	1820601754000 -> 1820602630288 [label=Input]
+	1820584043216 [label="Function [Add]
+Saved Tensors: 2" fillcolor="#e0e0e0" shape=rectangle style=filled]
+	1820584043216 -> 1820601754000 [label=Output]
+	1820584194512 [label="Tensor [284]
+Shape: (1, 685)
+Data: [[-0.00000000e+00 -0...
+Grad: [[-0.00145985 -0.001...
+Requires Grad: True" shape=ellipse]
+	1820584194512 -> 1820584043216 [label=Input]
+	1820584194384 [label="Function [Mul]
+Saved Tensors: 2" fillcolor="#e0e0e0" shape=rectangle style=filled]
+	1820584194384 -> 1820584194512 [label=Output]
+	1820580494096 [label="Tensor [5]
+Shape: (685,)
+Data: [0 0 0 0 0 0 0 0 0 0...
+Grad: None
+Requires Grad: False" shape=ellipse]
+	1820580494096 -> 1820584194384 [label=Input]
+	1820582978256 [label="Tensor [283]
+Shape: (1, 685)
+Data: [[-7.22202577e-02 -1...
+Grad: [[-0.         -0.   ...
+Requires Grad: True" shape=ellipse]
+	1820582978256 -> 1820584194384 [label=Input]
+	1820601513360 [label="Function [LogFunction]
+Saved Tensors: 1" fillcolor="#e0e0e0" shape=rectangle style=filled]
+	1820601513360 -> 1820582978256 [label=Output]
+	1820601747600 [label="Tensor [282]
+Shape: (1, 685)
+Data: [[9.30325962e-01 9.8...
+Grad: [[-0.00000000e+00 -0...
+Requires Grad: True" shape=ellipse]
+	1820601747600 -> 1820601513360 [label=Input]
+	1820580431888 [label="Function [Add]
+Saved Tensors: 2" fillcolor="#e0e0e0" shape=rectangle style=filled]
+	1820580431888 -> 1820601747600 [label=Output]
+	1820601055568 [label="Tensor [280]
+Shape: (1, 685)
+Data: [[9.30325962e-01 9.8...
+Grad: [[ 2.09526252e-02  1...
+Requires Grad: True" shape=ellipse]
+	1820601055568 -> 1820580431888 [label=Input]
+	1820584118224 [label="Function [Mul]
+Saved Tensors: 2" fillcolor="#e0e0e0" shape=rectangle style=filled]
+	1820584118224 -> 1820601055568 [label=Output]
+	1820601694800 [label="Tensor [277]
+Shape: ()
+Data: 1
+Grad: None
+Requires Grad: False" shape=ellipse]
+	1820601694800 -> 1820584118224 [label=Input]
+	1820601692112 [label="Tensor [279]
+Shape: (1, 685)
+Data: [[9.30325962e-01 9.8...
+Grad: [[ 2.09526252e-02  1...
+Requires Grad: True" shape=ellipse]
+	1820601692112 -> 1820584118224 [label=Input]
+	1820601689744 [label="Function [Power]
+Saved Tensors: 2" fillcolor="#e0e0e0" shape=rectangle style=filled]
+	1820601689744 -> 1820601692112 [label=Output]
+	1820583846288 [label="Tensor [276]
+Shape: (1, 685)
+Data: [[1.07489207e+00 1.0...
+Grad: [[-1.81346311e-02 -1...
+Requires Grad: True" shape=ellipse]
+	1820583846288 -> 1820601689744 [label=Input]
+	1820582667728 [label="Function [Add]
+Saved Tensors: 2" fillcolor="#e0e0e0" shape=rectangle style=filled]
+	1820582667728 -> 1820583846288 [label=Output]
+	1820584308048 [label="Tensor [274]
+Shape: (1, 685)
+Data: [[7.48920714e-02 1.4...
+Grad: [[-1.81346311e-02 -1...
+Requires Grad: True" shape=ellipse]
+	1820584308048 -> 1820582667728 [label=Input]
+	1820601754896 [label="Function [ExpFunction]
+Saved Tensors: 1" fillcolor="#e0e0e0" shape=rectangle style=filled]
+	1820601754896 -> 1820584308048 [label=Output]
+	1820584358224 [label="Tensor [273]
+Shape: (1, 685)
+Data: [[-2.59170725e+00 -4...
+Grad: [[-1.35814009e-03 -1...
+Requires Grad: True" shape=ellipse]
+	1820584358224 -> 1820601754896 [label=Input]
+	1820584043536 [label="Function [Mul]
+Saved Tensors: 2" fillcolor="#e0e0e0" shape=rectangle style=filled]
+	1820584043536 -> 1820584358224 [label=Output]
+	1820537959952 [label="Tensor [271]
+Shape: (1, 685)
+Data: [[ 2.59170725e+00  4...
+Grad: [[ 1.35814009e-03  1...
+Requires Grad: True" shape=ellipse]
+	1820537959952 -> 1820584043536 [label=Input]
+	1820576380816 [label="Function [Add]
+Saved Tensors: 2" fillcolor="#e0e0e0" shape=rectangle style=filled]
+	1820576380816 -> 1820537959952 [label=Output]
+	1820584042896 [label="Tensor [270]
+Shape: (1, 685)
+Data: [[  2.52271859   4.1...
+Grad: [[ 1.35814009e-03  1...
+Requires Grad: True" shape=ellipse]
+	1820584042896 -> 1820576380816 [label=Input]
+	1820584307984 [label="Function [MatMul]
+Saved Tensors: 2" fillcolor="#e0e0e0" shape=rectangle style=filled]
+	1820584307984 -> 1820584042896 [label=Output]
+	1820576894480 [label="Tensor [265]
+Shape: (1, 300)
+Data: [[-8.49912106e-02 -8...
+Grad: [[-0.36122368 -0.361...
+Requires Grad: True" shape=ellipse]
+	1820576894480 -> 1820584307984 [label=Input]
+	1820582153488 [label="Tensor [4]
+Shape: (300, 685)
+Data: [[-0.16601501 -0.466...
+Grad: None
+Requires Grad: False" shape=ellipse]
+	1820582153488 -> 1820584307984 [label=Input]
+	1820580441744 [label="Tensor [269]
+Shape: (1,)
+Data: [0.06898866]
+Grad: [[ 1.35814009e-03  1...
+Requires Grad: True" shape=ellipse]
+	1820580441744 -> 1820576380816 [label=Input]
+	1820601510352 [label="Tensor [272]
+Shape: ()
+Data: -1
+Grad: None
+Requires Grad: False" shape=ellipse]
+	1820601510352 -> 1820584043536 [label=Input]
+	1820584310096 [label="Tensor [275]
+Shape: ()
+Data: 1
+Grad: None
+Requires Grad: False" shape=ellipse]
+	1820584310096 -> 1820582667728 [label=Input]
+	1820601691344 [label="Tensor [278]
+Shape: ()
+Data: -1
+Grad: None
+Requires Grad: False" shape=ellipse]
+	1820601691344 -> 1820601689744 [label=Input]
+	1820601054672 [label="Tensor [281]
+Shape: ()
+Data: 1e-10
+Grad: None
+Requires Grad: False" shape=ellipse]
+	1820601054672 -> 1820580431888 [label=Input]
+	1820602645904 [label="Tensor [296]
+Shape: (1, 685)
+Data: [[-2.66392751e+00 -4...
+Grad: [[-0.00145985 -0.001...
+Requires Grad: True" shape=ellipse]
+	1820602645904 -> 1820584043216 [label=Input]
+	1820602641488 [label="Function [Mul]
+Saved Tensors: 2" fillcolor="#e0e0e0" shape=rectangle style=filled]
+	1820602641488 -> 1820602645904 [label=Output]
+	1820575736080 [label="Tensor [288]
+Shape: (685,)
+Data: [1 1 1 1 1 1 1 1 1 1...
+Grad: None
+Requires Grad: False" shape=ellipse]
+	1820575736080 -> 1820602641488 [label=Input]
+	1820576894800 [label="Tensor [295]
+Shape: (1, 685)
+Data: [[-2.66392751e+00 -4...
+Grad: [[-0.00145985 -0.001...
+Requires Grad: True" shape=ellipse]
+	1820576894800 -> 1820602641488 [label=Input]
+	1820601689552 [label="Function [LogFunction]
+Saved Tensors: 1" fillcolor="#e0e0e0" shape=rectangle style=filled]
+	1820601689552 -> 1820576894800 [label=Output]
+	1820602633488 [label="Tensor [294]
+Shape: (1, 685)
+Data: [[6.96740384e-02 1.4...
+Grad: [[-2.09526252e-02 -1...
+Requires Grad: True" shape=ellipse]
+	1820602633488 -> 1820601689552 [label=Input]
+	1820602635344 [label="Function [Add]
+Saved Tensors: 2" fillcolor="#e0e0e0" shape=rectangle style=filled]
+	1820602635344 -> 1820602633488 [label=Output]
+	1820602644688 [label="Tensor [292]
+Shape: (1, 685)
+Data: [[6.96740383e-02 1.4...
+Grad: [[-2.09526252e-02 -1...
+Requires Grad: True" shape=ellipse]
+	1820602644688 -> 1820602635344 [label=Input]
+	1820575741008 [label="Function [Add]
+Saved Tensors: 2" fillcolor="#e0e0e0" shape=rectangle style=filled]
+	1820575741008 -> 1820602644688 [label=Output]
+	1820601754640 [label="Tensor [289]
+Shape: ()
+Data: 1
+Grad: None
+Requires Grad: False" shape=ellipse]
+	1820601754640 -> 1820575741008 [label=Input]
+	1820601092560 [label="Tensor [291]
+Shape: (1, 685)
+Data: [[-9.30325962e-01 -9...
+Grad: [[-2.09526252e-02 -1...
+Requires Grad: True" shape=ellipse]
+	1820601092560 -> 1820575741008 [label=Input]
+	1820601513168 [label="Function [Mul]
+Saved Tensors: 2" fillcolor="#e0e0e0" shape=rectangle style=filled]
+	1820601513168 -> 1820601092560 [label=Output]
+	1820601055568 -> 1820601513168 [label=Input]
+	1820584118224 -> 1820601055568 [label=Output]
+	1820601694800 -> 1820584118224 [label=Input]
+	1820601692112 -> 1820584118224 [label=Input]
+	1820601689744 -> 1820601692112 [label=Output]
+	1820583846288 -> 1820601689744 [label=Input]
+	1820582667728 -> 1820583846288 [label=Output]
+	1820584308048 -> 1820582667728 [label=Input]
+	1820601754896 -> 1820584308048 [label=Output]
+	1820584358224 -> 1820601754896 [label=Input]
+	1820584043536 -> 1820584358224 [label=Output]
+	1820537959952 -> 1820584043536 [label=Input]
+	1820576380816 -> 1820537959952 [label=Output]
+	1820584042896 -> 1820576380816 [label=Input]
+	1820584307984 -> 1820584042896 [label=Output]
+	1820576894480 -> 1820584307984 [label=Input]
+	1820582153488 -> 1820584307984 [label=Input]
+	1820580441744 -> 1820576380816 [label=Input]
+	1820601510352 -> 1820584043536 [label=Input]
+	1820584310096 -> 1820582667728 [label=Input]
+	1820601691344 -> 1820601689744 [label=Input]
+	1820583741712 [label="Tensor [290]
+Shape: ()
+Data: -1
+Grad: None
+Requires Grad: False" shape=ellipse]
+	1820583741712 -> 1820601513168 [label=Input]
+	1820582153360 [label="Tensor [293]
+Shape: ()
+Data: 1e-10
+Grad: None
+Requires Grad: False" shape=ellipse]
+	1820582153360 -> 1820602635344 [label=Input]
+	1820601456592 [label="Tensor [299]
+Shape: ()
+Data: -1
+Grad: None
+Requires Grad: False" shape=ellipse]
+	1820601456592 -> 1820601747344 [label=Input]
+	1820601694736 [label="Tensor [301]
+Shape: ()
+Data: 0
+Grad: None
+Requires Grad: False" shape=ellipse]
+	1820601694736 -> 1820602637264 [label=Input]
+	1820602639184 [label="Tensor [303]
+Shape: ()
+Data: 0
+Grad: None
+Requires Grad: False" shape=ellipse]
+	1820602639184 -> 1820602640464 [label=Input]
+	1820580441360 -> 1820602643536 [label=Grad color="#606060" style=dashed]
+	1820602643536 -> 1820582046288 [label=Grad color="#606060" style=dashed]
+	1820582046288 -> 1820602632208 [label=Grad color="#606060" style=dashed]
+	1820602632208 -> 1820601754000 [label=Grad color="#606060" style=dashed]
+	1820601754000 -> 1820584194512 [label=Grad color="#606060" style=dashed]
+	1820584194512 -> 1820582978256 [label=Grad color="#606060" style=dashed]
+	1820582978256 -> 1820601747600 [label=Grad color="#606060" style=dashed]
+	1820601747600 -> 1820601055568 [label=Grad color="#606060" style=dashed]
+	1820601055568 -> 1820601692112 [label=Grad color="#606060" style=dashed]
+	1820601692112 -> 1820583846288 [label=Grad color="#606060" style=dashed]
+	1820583846288 -> 1820584308048 [label=Grad color="#606060" style=dashed]
+	1820584308048 -> 1820584358224 [label=Grad color="#606060" style=dashed]
+	1820584358224 -> 1820537959952 [label=Grad color="#606060" style=dashed]
+	1820537959952 -> 1820584042896 [label=Grad color="#606060" style=dashed]
+	1820584042896 -> 1820576894480 [label=Grad color="#606060" style=dashed]
+	1820537959952 -> 1820580441744 [label=Grad color="#606060" style=dashed]
+	1820601754000 -> 1820602645904 [label=Grad color="#606060" style=dashed]
+	1820602645904 -> 1820576894800 [label=Grad color="#606060" style=dashed]
+	1820576894800 -> 1820602633488 [label=Grad color="#606060" style=dashed]
+	1820602633488 -> 1820602644688 [label=Grad color="#606060" style=dashed]
+	1820602644688 -> 1820601092560 [label=Grad color="#606060" style=dashed]
+	1820601092560 -> 1820601055568 [label=Grad color="#606060" style=dashed]
+	1820601055568 -> 1820601692112 [label=Grad color="#606060" style=dashed]
+	1820601692112 -> 1820583846288 [label=Grad color="#606060" style=dashed]
+	1820583846288 -> 1820584308048 [label=Grad color="#606060" style=dashed]
+	1820584308048 -> 1820584358224 [label=Grad color="#606060" style=dashed]
+	1820584358224 -> 1820537959952 [label=Grad color="#606060" style=dashed]
+	1820537959952 -> 1820584042896 [label=Grad color="#606060" style=dashed]
+	1820584042896 -> 1820576894480 [label=Grad color="#606060" style=dashed]
+	1820537959952 -> 1820580441744 [label=Grad color="#606060" style=dashed]
+}
