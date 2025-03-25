@@ -226,6 +226,9 @@ class Tensor:
     def sum(self, axis=None, keepdims=False):
         return sum(self, axis=axis, keepdims=keepdims)
 
+    def clamp(self, min=None, max=None):
+        return clamp(self, min, max)
+
     # 反向运算符
     # TODO check
     __radd__ = __add__
@@ -293,6 +296,24 @@ class Power(Function):
         return dx, dy
 
 
+class Clamp(Function):
+
+    def forward(self, x, min=None, max=None):
+        """
+        min,max can be scalar or arraylike(must be same shape with x)
+        """
+        self.min = min
+        self.max = max
+        self.save_for_backward(x)
+        return np.clip(x.data, a_min=min, a_max=max)
+
+    def backward(self, grad_output):
+        x = self.saved_for_backward[0]
+        result = np.clip(x.data, self.min, self.max)
+
+        return ((x.data == result).astype(int) * grad_output.data,)
+
+
 # ----------------- 工具函数 -----------------
 def _ensure_tensor(other):
     """将标量或numpy数组转换为Tensor"""
@@ -329,6 +350,13 @@ def power(x, y):
     return Tensor(out_data, requires_grad=requires_grad, grad_fn=f)
     # 其他运算符重载保持不变
     # ... [原有代码保持不变] ...
+
+
+def clamp(x, min=None, max=None):
+    f = Clamp()
+    out_data = f.forward(x, min, max)
+    requires_grad = x.requires_grad
+    return Tensor(out_data, requires_grad=requires_grad, grad_fn=f)
 
 
 # 新增的LogFunction和ExpFunction类
