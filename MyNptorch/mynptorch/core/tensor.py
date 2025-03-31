@@ -211,7 +211,7 @@ class Tensor:
         return add(self, mul(_ensure_tensor(other), Tensor(-1)))
 
     def __truediv__(self, other):
-        return mul(self, power(_ensure_tensor(other), Tensor(-1)))
+        return mul(self, power(_ensure_tensor(other), Tensor(-1.0)))
         # 新增的log和exp方法
 
     def log(self):
@@ -275,8 +275,8 @@ class MatMul(Function):
     def backward(self, grad_output):
         x, y = self.saved_for_backward
         return (
-            grad_output @ Tensor(y.data.T),
-            Tensor(x.data.T) @ grad_output,
+            Tensor(grad_output) @ Tensor(y.data.T),
+            Tensor(x.data.T) @ Tensor(grad_output),
         )  # 矩阵乘法梯度
 
 
